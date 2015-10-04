@@ -1,1 +1,43 @@
-<p>This is the partial for view 1.</p>
+<div align='center'>
+  <p>This is the current grocery</p>
+
+  <div>
+    id: {{grocery.id}}<br>
+    nome: {{grocery.name}}<br>
+    creation_date: {{grocery.creation_date | date:'dd/MM/yyyy @ h:mma' }}<br>
+    complete_data: {{grocery.complete_data | date:'dd/MM/yyyy @ h:mma' }}<br>
+    place:{{grocery.location}}<br>
+    <button type="button" ng-click="show_search = !show_search">{{ (show_search) ? 'Hide' : 'Show'}} search section</button>    <br>
+  </div>
+  <div class='search-section' ng-show="show_search">
+    <br><br>
+    qui ricerchiamo qualcosa<br>
+    <button type="button">scan</button>
+    <input type="text" ng-model="serach_field" ng-init="serach_field=''"/> 
+    <button type="button" ng-click="addItemToGrochery(serach_field)">+</button>
+    <br><br>
+  </div>
+  <div class="search-available-product" ng-repeat="findItem in grocery.AvaliablaePList"
+       ng-show="serach_field != ''">
+      <img height="60" width="60" ng-src='{{findItem.img}}'/>
+          [{{findItem.id}}] name: {{findItem.name}}<br>
+          barcode: {{findItem.barcode}}
+          brand: {{findItem.brand}}<br>
+  </div>
+  <div class='product-list'>
+    <p>PRODUCT LIST</p>
+    <div class='item-in-line' ng-repeat='item in grocery.items' >
+      <img height="60" width="60" ng-src='{{item.img}}'/>
+      [{{item.id}}] name: {{item.name}}<br>
+      barcode: {{item.barcode}}
+      qta: {{item.qta}}
+      brand: {{item.brand}}<br>
+      <br><br><br>
+    </div>
+  </div>
+  
+  
+<div>
+ {{grocery.AvaliablaePList | json}}
+  </div>  
+</div>

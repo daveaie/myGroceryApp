@@ -1,4 +1,4 @@
-var groceryServices = angular.module('groceryServices', []);
+var groceryServices = angular.module('groceryServices', ['ngResource']);
 
 groceryServices.factory('CurrentGroceryData', function() {
 
@@ -6,7 +6,8 @@ groceryServices.factory('CurrentGroceryData', function() {
   var fakeGrocery = {
       id: 0,
       name: 'Prima spesa',
-      date: '10/09/2015',
+      creation_date: '2015-09-10T13:28:06.419Z',
+      complete_data: '',
       location: 'Ipercoop',
       items: [{
           id: 0,
@@ -21,7 +22,7 @@ groceryServices.factory('CurrentGroceryData', function() {
           barcode: '',
           qta: 300,
           brand: 'coop',
-          img:'https://www.google.it/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRxqFQoTCJLyu_ncl8gCFWj-cgodqQ4FZA&url=http%3A%2F%2Fwww.aziendagricolamelwill.com%2Fprodotto%2Fpetto-di-pollo%2F&psig=AFQjCNGmx9kMr2BIiyJtNs2ZGgO4T60dNQ&ust=1443460878426102'
+          img:'http://www.aziendagricolamelwill.com/wp-content/uploads/2013/11/Petto-di-pollo-924x787.jpg'
       }]
   };
 
@@ -32,3 +33,10 @@ groceryServices.factory('CurrentGroceryData', function() {
   }
 
 });
+
+groceryServices.factory('AvailableProductList', ['$resource', function($resource){
+    // Get the list from Json file
+    return $resource('data_demo/availableProductList.json', {}, {
+      query: {method:'GET', params:{}, isArray:true}
+    });
+}]);
