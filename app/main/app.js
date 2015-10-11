@@ -10,4 +10,6 @@ var groceryApp = angular.module('myGroceryApp', [
 
 groceryApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/grocery'});
+
+  $scope.console = $log;
 }]);

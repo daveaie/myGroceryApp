@@ -15,14 +15,16 @@ groceryServices.factory('CurrentGroceryData', function() {
           barcode: '',
           qta: 2,
           brand: 'Coop',
-          img:''
+          img:'',
+          buyed: true
         },{
           id: 1,
           name: 'petti di pollo',
           barcode: '',
           qta: 300,
           brand: 'coop',
-          img:'http://www.aziendagricolamelwill.com/wp-content/uploads/2013/11/Petto-di-pollo-924x787.jpg'
+          img:'http://www.aziendagricolamelwill.com/wp-content/uploads/2013/11/Petto-di-pollo-924x787.jpg',
+          buyed: false
       }]
   };
 

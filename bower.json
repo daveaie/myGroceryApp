@@ -1,7 +1,7 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
-  "version": "0.0.0",
+  "name": "myGroceryApp",
+  "description": "my angular learning projetct making grocery shared app. ",
+  "version": "0.0.1",
   "homepage": "https://github.com/daveaie/myGroceryApp",
   "license": "MIT",
   "private": false,
