@@ -10,16 +10,17 @@ groceryFilters.filter('checkmark', function() {
 });
 
 
-
-groceryFilters.filter('alreadyAddedProduct',function($scope){
-  console.log($scope.grocery.items[0].id);
-  return function(itemToAdd) {
-    //var posFilterArray = [];
-    
-    angular.forEach($scope.grocery.items, function(addedItem, key){
-      if (addedItem.id == itemToAdd.id)
-        return false;
-    });
-    return true;
-  };
+groceryFilters.filter('reverse' , function(){
+  return function(input, uppercase) {
+    input = input || '';
+    console.log('Length of string: ' + input.length);
+    var out = "";
+    for (var i = 0 ; i < input.length; i++) {
+      out = input.charAt(i) + out;
+    }
+    if (uppercase) {
+      out = out.toUpperCase();
+    }
+    return out;
+  };    
 });

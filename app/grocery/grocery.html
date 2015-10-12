@@ -10,15 +10,14 @@
     <button type="button" ng-click="show_search = !show_search">{{ (show_search) ? 'Hide' : 'Show'}} search section</button>    <br>
   </div>
   <div class='search-section' ng-show="show_search">
-    <br>{{grocery.items.indexOf(1).id + ' ' +grocery.items.indexOf(1).name}}<br>
+    <br><br>
     qui ricerchiamo qualcosa<br>
     <button type="button">scan</button>
     <input type="text" ng-model="serach_field" ng-init="serach_field=''"/> 
     <button type="button" <!-- ng-click="addItemToGrochery(serach_field)" -->+</button>
-    <br><br>
   </div>
   <div class="search-available-product" 
-        ng-repeat="findItem in grocery.AvaliablePList | filter:alreadyAddedProduct | filter:serach_field"
+        ng-repeat="findItem in grocery.AvaliablePList | filter:serach_field | filter:filterArrayWithArray(grocery.items)"
         ng-show="serach_field != ''">
       <img height="60" width="60" ng-src='{{findItem.img}}'/>
           <a ng-href="" ng-click="addItemToGrochery(findItem)">[{{findItem.id}}] name: {{findItem.name}}<br>
