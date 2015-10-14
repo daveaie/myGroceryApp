@@ -2,46 +2,98 @@
 
 describe('myGroceryApp', function() {
 
+  var $controller , mockAvailableProductList , mockCurrentGroceryData;
+
   // instazite needed modulo to test
-  beforeEach(module('groceryControllers'));
+  beforeEach(module('ngRoute'));
+  beforeEach(module('ngResource'));
   beforeEach(module('groceryServices'));
+  //beforeEach(module('groceryFilters'));
+  beforeEach(module('groceryControllers'));
   
-  describe('GroceryCtrl', function(){
+  beforeEach(inject(function(_$controller_){
+    // i DO NOT UNTERSTUD IF THIS IS FUNDAMENTAL <<<<<<<-----------------------------
+    $controller = _$controller_;
+  }));
+
+  // need to inizialize factory to pass injection in controller param
+  mockAvailableProductList = {
+    query: function() { 
+      var fakeProductList = [{
+                      id: 0,
+                      name: 'TEST - Passata di pomodoro',
+                      barcode: '',
+                      qta: 2,
+                      brand: 'TEST - Coop',
+                      img:'',
+                      buyed: true
+                    },{
+                      id: 1,
+                      name: 'TEST - petti di pollo',
+                      barcode: '',
+                      qta: 300,
+                      brand: 'TEST - coop',
+                      img:'https://www.google.it/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRxqFQoTCJLyu_ncl8gCFWj-cgodqQ4FZA&url=http%3A%2F%2Fwww.aziendagricolamelwill.com%2Fprodotto%2Fpetto-di-pollo%2F&psig=AFQjCNGmx9kMr2BIiyJtNs2ZGgO4T60dNQ&ust=1443460878426102',
+                      buyed: true
+                  },{
+                      id: 100,
+                      name: 'TEST - fragole',
+                      barcode: '',
+                      qta: 300,
+                      brand: 'TEST - boschetto',
+                      img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsUjFFGxzInbJr5OXPj8_vhYG96XyQ0kPQNSd7qkWQ3uuSV0iCQvPE5YU',
+                      buyed: true
+                  }];
+      return fakeProductList;
+    }
+  };
+  // ------- change here to http REST declaration to mock data with this (put thet in a json file?) --------- //      
+  mockCurrentGroceryData = {
+    getGrocery: function() { 
+      var fakeCurrentGrocery = {
+                  id: 0,
+                  name: 'TEST - Prima spesa',
+                  date: 'TEST - 10/09/2015',
+                  location: 'TEST - Ipercoop',
+                  items: [{
+                      id: 0,
+                      name: 'TEST - Passata di pomodoro',
+                      barcode: '',
+                      qta: 2,
+                      brand: 'TEST - Coop',
+                      img:'',
+                      buyed: true
+                    },{
+                      id: 1,
+                      name: 'TEST - petti di pollo',
+                      barcode: '',
+                      qta: 300,
+                      brand: 'TEST - coop',
+                      img:'https://www.google.it/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRxqFQoTCJLyu_ncl8gCFWj-cgodqQ4FZA&url=http%3A%2F%2Fwww.aziendagricolamelwill.com%2Fprodotto%2Fpetto-di-pollo%2F&psig=AFQjCNGmx9kMr2BIiyJtNs2ZGgO4T60dNQ&ust=1443460878426102',
+                      buyed: true
+                  }]
+                }
+      return fakeCurrentGrocery;
+    }
+  };
+
+  describe('Test the main controller: GroceryCtrl', function(){
     // variable declaretion to be visible in all following tests for this module/controller
-    var scope, ctrl, item;
-    
+    var scope, ctrl, item , prodList, curGrocery;
+    //beforeEach(module('groceryServices.mockAvailableProductList'));
+
     // inject the service in the istnziation of the controller
     beforeEach(inject(function($rootScope, $controller) {
       // scope inizializzation with new rootScope
       scope = $rootScope.$new();
+
       // controller inizialization
-      ctrl = $controller('GroceryCtrl', {$scope: scope});
-      
-// ------- change here to http REST declaration to mock data with this (put thet in a json file?) --------- //      
-      ctrl.localGrocery = {
-                      id: 0,
-                      name: 'TEST - Prima spesa',
-                      date: 'TEST - 10/09/2015',
-                      location: 'TEST - Ipercoop',
-                      items: [{
-                          id: 0,
-                          name: 'TEST - Passata di pomodoro',
-                          barcode: '',
-                          qta: 2,
-                          brand: 'TEST - Coop',
-                          img:'',
-                          buyed: true
-                        },{
-                          id: 1,
-                          name: 'TEST - petti di pollo',
-                          barcode: '',
-                          qta: 300,
-                          brand: 'TEST - coop',
-                          img:'https://www.google.it/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRxqFQoTCJLyu_ncl8gCFWj-cgodqQ4FZA&url=http%3A%2F%2Fwww.aziendagricolamelwill.com%2Fprodotto%2Fpetto-di-pollo%2F&psig=AFQjCNGmx9kMr2BIiyJtNs2ZGgO4T60dNQ&ust=1443460878426102',
-                          buyed: true
-                      }]
-                  };
-      
+      ctrl = $controller('GroceryCtrl', {
+        $scope: scope, 
+        CurrentGroceryData: mockCurrentGroceryData, 
+        AvailableProductList: mockAvailableProductList
+      });
+
       item = ctrl.localGrocery.items[0];
       
     })); 
@@ -54,8 +106,7 @@ describe('myGroceryApp', function() {
       expect(ctrl.localGrocery.name).toEqual('TEST - Prima spesa');
       expect(ctrl.localGrocery.location).toEqual('TEST - Ipercoop');
     });
-    
-    
+
     it('should view the selected grocery first item', function() {
       expect(item.name).toEqual('TEST - Passata di pomodoro');
       expect(item.qta).toEqual(2);

@@ -1,7 +1,8 @@
 'use strict';
 
-var groceryControllers = angular.module('groceryControllers', [
-              'groceryFilters','ngRoute'])
+var groceryControllers = angular.module('groceryControllers', [ 'groceryFilters',
+                                                                'ngRoute'
+                                                                ]);
 
 groceryControllers.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/grocery', {
@@ -15,22 +16,29 @@ groceryControllers.controller('GroceryCtrl', ['$scope', 'CurrentGroceryData', 'A
   //$scope.console = $log;
   console.log('Start Logging data:');
 
-  // var for beavior
+  // var for beavior of search section
   $scope.show_search = true;
   
-  // get current grocery to local one
-  var localGrocery = null;
-  localGrocery = CurrentGroceryData.getGrocery();
-  $scope.grocery = localGrocery;
-
+  // get current grocery to local one and then to scope
+  CurrentGroceryData.getGrocery(function (localGrocery){
+    console.log('current grocery chart:');
+    console.log(localGrocery);
+    $scope.grocery = localGrocery;
+  },function(localGrocery){
+    console.log('error retriveing current Gorcery Chart!!!');
+  });
 
   // get list of available product
-  var aPList = [];
-  aPList = AvailableProductList.query();
-  $scope.grocery.AvaliablePList = aPList;
+  AvailableProductList.query(function (aPList){
+    console.log('all available prduct list:');
+    console.log(aPList);
+    $scope.avaliablePList = aPList;
+  },function(aPList){
+    console.log('error retriveing all available prduct list!!!');
+  });
   /*
-    note: in future this use of all product list, with the filter tha is
-    applied in view will become havy in performace...need to find some progressive filter.
+    note: in future this use of all product list, with the filter that is
+    applied in view will become heavy in performace...need to find some progressive filter.
     Now the filter is applied also when no item is selected, and is applied to all product (no fileter)
   */
 

@@ -17,7 +17,7 @@
     <button type="button" <!-- ng-click="addItemToGrochery(serach_field)" -->+</button>
   </div>
   <div class="search-available-product" 
-        ng-repeat="findItem in grocery.AvaliablePList | filter:serach_field | filter:filterArrayWithArray(grocery.items)"
+        ng-repeat="findItem in avaliablePList | filter:serach_field | filter:filterArrayWithArray(grocery.items)"
         ng-show="serach_field != ''">
       <img height="60" width="60" ng-src='{{findItem.img}}'/>
           <a ng-href="" ng-click="addItemToGrochery(findItem)">[{{findItem.id}}] name: {{findItem.name}}<br>
@@ -38,6 +38,6 @@
   
   
 <div>
- {{grocery.AvaliablePList | json}}
+ {{avaliablePList | json}}
   </div>  
 </div>
