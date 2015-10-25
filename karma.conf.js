@@ -9,6 +9,7 @@ module.exports = function(config){
       'bower_components/angular-resource/angular-resource.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
       'app/components/**/*.js',
+      'app/main/**/*.js',
       'app/grocery/**/*.js'
     ],
 
@@ -24,7 +25,7 @@ module.exports = function(config){
             'karma-jasmine',
             'karma-junit-reporter'
             ],
-
+    
     junitReporter : {
       outputFile: 'test_out/unit.xml',
       suite: 'unit'
