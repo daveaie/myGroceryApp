@@ -1,39 +1,43 @@
 'use strict';
 
-var groceryControllers = angular.module('groceryControllers', [ 'groceryFilters',
-                                                                'ngRoute'
-                                                                ]);
+var groceryControllers = angular.module('groceryControllers', [ 'ngRoute' ]);
 
 groceryControllers.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/grocery', {
     templateUrl: 'grocery/grocery.html',
-    controller: 'GroceryCtrl'
+    controller: 'GroceryCtrl',
+    controllerAs: 'grocery'
   });
 }])
 
-groceryControllers.controller('GroceryCtrl', ['$scope', 'CurrentGroceryData', 'AvailableProductList',
-      function($scope, CurrentGroceryData, AvailableProductList) {
+groceryControllers.controller('GroceryCtrl', ['CurrentGroceryData', 'AvailableProductList',
+      function(CurrentGroceryData, AvailableProductList) {
+
+  //inizialize loval variable
+  var localGrocery = this;
+  var currentGrocery = {};
   //$scope.console = $log;
   console.log('Start Logging data:');
 
   // var for beavior of search section
-  $scope.show_search = true;
+  localGrocery.show_search = true;
   
   // get current grocery to local one and then to scope
-  CurrentGroceryData.getGrocery(function (localGrocery){
+  CurrentGroceryData.getGrocery(function (resultGrocery){
     console.log('current grocery chart:');
-    console.log(localGrocery);
-    $scope.grocery = localGrocery;
-  },function(localGrocery){
+    console.log(resultGrocery);
+    localGrocery.currentGrocery = resultGrocery;
+  },function(resultGrocery){
     console.log('error retriveing current Gorcery Chart!!!');
   });
+  
 
   // get list of available product
-  AvailableProductList.query(function (aPList){
+  AvailableProductList.query(function (resultAPList){
     console.log('all available prduct list:');
-    console.log(aPList);
-    $scope.avaliablePList = aPList;
-  },function(aPList){
+    console.log(resultAPList);
+    localGrocery.avaliablePList = resultAPList;
+  },function(resultAPList){
     console.log('error retriveing all available prduct list!!!');
   });
   /*
@@ -43,20 +47,22 @@ groceryControllers.controller('GroceryCtrl', ['$scope', 'CurrentGroceryData', 'A
   */
 
   // function to add item to current grocery
-  $scope.addItemToGrochery = function(findItem) {
+  localGrocery.addItemToGrochery = function(findItem) {
     if (findItem) {
       var qta = prompt('how many obj?');
       findItem.qta = qta;
-      $scope.grocery.items.push(findItem);
-      $scope.serach_field = '';
+      localGrocery.currentGrocery.items.push(findItem);
+      localGrocery.serach_field = '';
     }
   };
 
-  //this function suppose that the arrayToBeFiltered's items and the fitlerArray'items have a property called "id"
-  $scope.filterArrayWithArray = function(filterArray){
+  
+/*    //rilocate in module groceryFilters
+ //this function suppose that the arrayToBeFiltered's items and the fitlerArray'items have a property called "id"
+  localGrocery.filterArrayWithArray = function(filterArray){
     return function(item) {
-      //console.log('id of current Array item to be filtered: ' + item.id);
-      //console.log('Length of filter Array : ' + filterArray.length);
+      console.log('id of current Array item to be filtered: ' + item.id);
+      console.log('Length of filter Array : ' + filterArray.length);
       var result = true;
       // http://stackoverflow.com/questions/13843972/angular-js-break-foreach
       // says taht is faster to use native for loop instead of forEach, and i suppose to need filter many product
@@ -65,12 +71,13 @@ groceryControllers.controller('GroceryCtrl', ['$scope', 'CurrentGroceryData', 'A
         if (item.id === filterArray[i].id){
           result = false;
           break;
-          //console.log('id of forEach filterItem: ' + filterItem.id);
+          console.log('id of forEach filterItem: ' + filterItem.id);
         };
       };
 //      });
       return result;
     };
   };
+*/
   
 }]);

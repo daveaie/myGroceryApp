@@ -4,7 +4,8 @@
 var groceryApp = angular.module('myGroceryApp', [
               'ngRoute',
               'groceryControllers', 
-              'groceryServices',
+              'groceryServices', 
+              'groceryFilters',
               'myGroceryApp.version'
             ]);
 

@@ -2,11 +2,11 @@
   <p>This is the current grocery</p>
 
   <div>
-    id: {{grocery.id}}<br>
-    nome: {{grocery.name}}<br>
-    creation_date: {{grocery.creation_date | date:'dd/MM/yyyy @ h:mma' }}<br>
-    complete_data: {{grocery.complete_data | date:'dd/MM/yyyy @ h:mma' }}<br>
-    place:{{grocery.location}}<br>
+    id: {{grocery.currentGrocery.id}}<br>
+    nome: {{grocery.currentGrocery.name}}<br>
+    creation_date: {{grocery.currentGrocery.creation_date | date:'dd/MM/yyyy @ h:mma' }}<br>
+    complete_data: {{grocery.currentGrocery.complete_data | date:'dd/MM/yyyy @ h:mma' }}<br>
+    place:{{grocery.currentGrocery.location}}<br>
     <button type="button" ng-click="show_search = !show_search">{{ (show_search) ? 'Hide' : 'Show'}} search section</button>    <br>
   </div>
   <div class='search-section' ng-show="show_search">
@@ -17,7 +17,7 @@
     <button type="button" <!-- ng-click="addItemToGrochery(serach_field)" -->+</button>
   </div>
   <div class="search-available-product" 
-        ng-repeat="findItem in avaliablePList | filter:serach_field | filter:filterArrayWithArray(grocery.items)"
+        ng-repeat="findItem in grocery.avaliablePList | filter:serach_field | filterArrayWithArray:grocery.currentGrocery.items"
         ng-show="serach_field != ''">
       <img height="60" width="60" ng-src='{{findItem.img}}'/>
           <a ng-href="" ng-click="addItemToGrochery(findItem)">[{{findItem.id}}] name: {{findItem.name}}<br>
@@ -26,7 +26,7 @@
   </div>
   <div class='product-list'>
     <p>PRODUCT LIST</p>
-    <div class='item-in-line' ng-repeat='item in grocery.items' >
+    <div class='item-in-line' ng-repeat='item in grocery.currentGrocery.items' >
       <img height="60" width="60" ng-src='{{item.img}}'/>
       [{{item.id}}] name: {{item.name}}<br>
       barcode: {{item.barcode}}
@@ -38,6 +38,6 @@
   
   
 <div>
- {{avaliablePList | json}}
+ {{grocery.avaliablePList | json}}
   </div>  
 </div>

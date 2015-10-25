@@ -24,3 +24,28 @@ groceryFilters.filter('reverse' , function(){
     return out;
   };    
 });
+
+groceryFilters.filter('filterArrayWithArray',function(){
+  return function(dataArray, filterArray) {
+    var itemToFilter = [];
+    if (!dataArray) {
+      return
+    }
+    else if (!filterArray) {
+      return dataArray
+    } 
+    else {
+      //console.log('Length of data Array : ' + dataArray.length);
+      //console.log('Length of filter Array : ' + filterArray.length);
+      for (var i = 0 ; i < filterArray.length; i++) {
+        console.log('id of current Array item to filter: ' + filterArray[i].id);
+        itemToFilter.push(filterArray[i].id);
+      };
+      //console.log('itemToFilter: ' + itemToFilter);
+      return dataArray.filter( function(item) {
+        return itemToFilter.indexOf(item.id) === -1;
+      });
+    }
+  
+  }
+});
